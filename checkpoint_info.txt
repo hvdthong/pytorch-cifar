@@ -1,0 +1,1 @@
+ckpt.pth -- train_acc:0.984 -- test_acc:92.470  
