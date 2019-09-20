@@ -41,6 +41,7 @@ def evaluation(net, dataset, device):
 parser = argparse.ArgumentParser(description='PyTorch CIFAR10 Training')
 parser.add_argument('--lr', default=0.1, type=float, help='learning rate')
 parser.add_argument('--resume', '-r', action='store_true', help='resume from checkpoint')
+parser.add_argument('--model', default='ckpt.pth', type=str, help='model name')
 args = parser.parse_args()
 
 device = 'cuda' if torch.cuda.is_available() else 'cpu'
@@ -76,10 +77,13 @@ if device == 'cuda':
     net = torch.nn.DataParallel(net)
     cudnn.benchmark = True
 
+# model_name = 'ckpt.pth'
+# model_name = 'ckpt_ver1.pth'
+
 # Load checkpoint.
 print('==> Resuming from checkpoint..')
 assert os.path.isdir('checkpoint'), 'Error: no checkpoint directory found!'
-checkpoint = torch.load('./checkpoint/ckpt.pth')
+checkpoint = torch.load('./checkpoint/' + args.model)
 net.load_state_dict(checkpoint['net'])
 best_acc = checkpoint['acc']
 start_epoch = checkpoint['epoch']
